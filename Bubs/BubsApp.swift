@@ -12,6 +12,8 @@ struct BubsApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            FightingPage()
+
         }
     }
 }
