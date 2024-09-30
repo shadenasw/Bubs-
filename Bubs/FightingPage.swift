@@ -32,10 +32,10 @@ struct FightingPage: View {
                         .frame(width: 150, height: 20)
                         .padding(.trailing, 20)
                 }
-                .padding(.top, 20)
+                .padding(.top, 40)
                 
                 Spacer()
-                    .frame(height: 60)
+                  //  .frame(height: 40)
                 
                 // player and germ
                 HStack {
@@ -49,7 +49,7 @@ struct FightingPage: View {
                     Image("supergirl")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)
+                        .frame(width: 200, height: 180)
                         .padding()
                     
                     Spacer()
@@ -57,10 +57,10 @@ struct FightingPage: View {
                     Image("germs")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 250)
+                        .frame(width: 200, height: 200)
                         .padding()
                 }
-                .padding(.top, 20)
+                .padding(.top, 40)
                 
                 }
             }
