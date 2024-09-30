@@ -37,7 +37,7 @@ struct FightingPage: View {
                 Spacer()
                     .frame(height: 60)
                 
-                // [layer and germ
+                // player and germ
                 HStack {
                     Button(action: {
                         // action
@@ -68,7 +68,7 @@ struct FightingPage: View {
     }
 
 
-// Health Bar View
+// health bar view
 struct HealthBar: View {
     var health: CGFloat
     
