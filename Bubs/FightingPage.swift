@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct FightingPage: View {
-   
+    @State private var playerHealth: CGFloat = 1.0
+    @State private var enemyHealth: CGFloat = 1.0
+    
     var body: some View {
         ZStack {
             // background
@@ -18,81 +20,73 @@ struct FightingPage: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                //  bars
+                // health bars
                 HStack {
-                   
+                    HealthBar(health: playerHealth)
+                        .frame(width: 150, height: 20)
+                        .padding(.leading, 20)
+                    
+                    Spacer()
+                    
+                    HealthBar(health: enemyHealth)
+                        .frame(width: 150, height: 20)
+                        .padding(.trailing, 20)
                 }
                 .padding(.top, 20)
                 
                 Spacer()
+                    .frame(height: 60)
                 
-                // Player and enemy
+                // [layer and germ
                 HStack {
+                    Button(action: {
+                        // action
+                    }) {
+                        Image(systemName: "wand.and.stars")
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                    }
                     Image("supergirl")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .padding(.leading, 20)
+                        .frame(width: 200, height: 200)
+                        .padding()
                     
                     Spacer()
                     
                     Image("germs")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .padding(.trailing, 20)
+                        .frame(width: 200, height: 250)
+                        .padding()
                 }
-                .padding(.top, 90)
-                Spacer()
+                .padding(.top, 20)
                 
-                // Controls and action buttons
-                HStack {
-                    // Action button (attack)
-                    Button(action: {}) {
-                        Image(systemName: "wand.and.stars")
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                    }
-                    .padding(.leading, 50)
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 10) {
-                        Button(action: {}) {
-                            Image(systemName: "arrow.up.circle.fill")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                        }
-                        HStack(spacing: 10) {
-                            Button(action: {}) {
-                                Image(systemName: "arrow.left.circle.fill")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                            }
-                            Button(action: {}) {
-                                Image(systemName: "arrow.right.circle.fill")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                            }
-                        }
-                        Button(action: {}) {
-                            Image(systemName: "arrow.down.circle.fill")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                        }
-                    }
-                    .padding(.trailing, 50)
                 }
-                .padding(.bottom, 30)
             }
         }
     }
+
+
+// Health Bar View
+struct HealthBar: View {
+    var health: CGFloat
+    
+    var body: some View {
+        ZStack(alignment: .leading) {
+            Rectangle()
+                .frame(width: 150, height: 20)
+                .foregroundColor(.gray)
+            Rectangle()
+                .frame(width: 150 * health, height: 20)
+                .foregroundColor(.green)
+        }
+        .cornerRadius(10)
+    }
 }
 
-
-
-
-#Preview {
-    FightingPage()
+struct FightingPage_Previews: PreviewProvider {
+    static var previews: some View {
+        FightingPage()
     }
-
+}
