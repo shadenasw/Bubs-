@@ -24,10 +24,10 @@ struct HomePage: View {
                             .fontWeight(.bold)
                             .foregroundStyle(.blue)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.cyan)
                             .cornerRadius(15)
                             .scaleEffect(scale)
-                            .shadow(radius: 10)
+                            .shadow(radius: 50)
                     }
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.2).delay(0.2)) {
@@ -36,8 +36,11 @@ struct HomePage: View {
                     }
                     Text("BUBS")
                         .font(.system(size: 70, weight: .bold, design: .rounded))
+                        .italic()
                         .foregroundStyle(.blue)
-                        .padding(.top,-180)
+                        .shadow(color: .cyan, radius: 2, x:10, y:10)
+                        .rotationEffect(.degrees(10))
+                        .padding(.top,-220)
                 }
             }
                 .ignoresSafeArea()
