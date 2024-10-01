@@ -45,6 +45,11 @@
 			path = BubsUITests;
 			sourceTree = "<group>";
 		};
+		FFFFD9CC2CAC2AB1002B9E94 /* Audios */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Audios;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +80,7 @@
 		FFFFD88C2CA99A79002B9E94 = {
 			isa = PBXGroup;
 			children = (
+				FFFFD9CC2CAC2AB1002B9E94 /* Audios */,
 				FFFFD8972CA99A79002B9E94 /* Bubs */,
 				FFFFD8A82CA99A7B002B9E94 /* BubsTests */,
 				FFFFD8B22CA99A7B002B9E94 /* BubsUITests */,
@@ -109,6 +115,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				FFFFD8972CA99A79002B9E94 /* Bubs */,
+				FFFFD9CC2CAC2AB1002B9E94 /* Audios */,
 			);
 			name = Bubs;
 			packageProductDependencies = (

@@ -13,7 +13,7 @@ struct FightingPage: View {
     var body: some View {
         ZStack {
             // Background
-            Image("background")
+            Image("fightBackground")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
@@ -25,6 +25,7 @@ struct FightingPage: View {
                         .frame(height: 20)
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
+
                 }
                 
                 Spacer()
@@ -42,20 +43,20 @@ struct FightingPage: View {
 
                     }}
                         
-                        Image("supergirl")
+                        Image("superherosoap")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 200, height: 200)
-                           // .padding(.leading, 10)
-                        
+                            .frame(width: 300, height: 300)
+
                         Spacer()
                             .frame(width: 200)
                         Image("germs")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 200, height: 200)
-                           // .padding(.trailing, 10)
+                            .frame(width: 200, height: 300)
                     }
+                .offset(y: 50)
+
                         
                         
                     }
