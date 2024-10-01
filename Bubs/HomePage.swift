@@ -19,15 +19,12 @@ struct HomePage: View {
                     Button(action:{
                         print("play button pressed")
                     }){
-                        Text("START")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.blue)
-                            .padding()
-                            .background(Color.cyan)
-                            .cornerRadius(15)
-                            .scaleEffect(scale)
-                            .shadow(radius: 50)
+                       ( Image(systemName: "play.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width:100, height: 100)
+                            .ignoresSafeArea())
+                            
                     }
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.2).delay(0.2)) {
@@ -40,7 +37,7 @@ struct HomePage: View {
                         .foregroundStyle(.blue)
                         .shadow(color: .cyan, radius: 2, x:10, y:10)
                         .rotationEffect(.degrees(10))
-                        .padding(.top,-220)
+                        .padding(.top,-240)
                 }
             }
                 .ignoresSafeArea()
