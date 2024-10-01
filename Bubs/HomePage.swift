@@ -34,7 +34,6 @@ struct HomePage: View {
                         .font(.system(size: 70, weight: .bold, design: .rounded))
                         .italic()
                         .foregroundStyle(.bb)
-                        .rotationEffect(.degrees(10))
                         .padding(.top, -190)
                 }
             }
