@@ -26,14 +26,14 @@ struct HomePage: View {
                                 .resizable()
                                 .frame(width: 100, height: 100)
                                 .padding(.bottom,-50)
+                                .foregroundColor(.bb)
                         }
                     }
                     
                     Text("BUBS")
                         .font(.system(size: 70, weight: .bold, design: .rounded))
                         .italic()
-                        .foregroundStyle(.blue)
-                        .shadow(color: .cyan, radius: 2, x: 10, y: 10)
+                        .foregroundStyle(.bb)
                         .rotationEffect(.degrees(10))
                         .padding(.top, -190)
                 }
