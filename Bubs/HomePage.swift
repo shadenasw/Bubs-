@@ -29,14 +29,14 @@ struct HomePage: View {
                                 .resizable()
                                 .frame(width: 100, height: 100)
                                 .padding(.bottom,-50)
-                                .foregroundColor(.bb)
+                                .foregroundColor(.darkBlue)
                         }
                     }
                     
                     Text("BUBS")
                         .font(.system(size: 70, weight: .bold, design: .rounded))
                         .italic()
-                        .foregroundStyle(.bb)
+                        .foregroundStyle(.darkBlue)
                         .padding(.top, -190)
                 }
                 Image("bubbles")
