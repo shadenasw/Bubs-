@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct FightingPage: View {
-    @State private var enemyHealth: CGFloat = 1.0 // Initialize with full health
-    @State private var isPaused: Bool = false // State for the pause menu
-
+    @State private var enemyHealth: CGFloat = 1.0
+    @State private var isPaused: Bool = false
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -77,6 +77,10 @@ struct FightingPage: View {
                 if isPaused {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            // Dismiss the pause menu when tapping outside
+                            isPaused = false
+                        }
 
                     VStack(spacing: 20) {
                         Text("Game Paused")
@@ -113,16 +117,6 @@ struct FightingPage: View {
                             }
                         }
 
-                        // Resume game by tapping the pause button again
-                        Button(action: {
-                            isPaused = false
-                        }) {
-                            Image(systemName: "play.circle.fill")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .foregroundStyle(.white, .darkBlue)
-                                .shadow(radius: 5)
-                        }
                     }
                     .padding()
                     .background(Color.white.opacity(0.9))
