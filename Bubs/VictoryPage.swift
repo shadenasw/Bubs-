@@ -23,7 +23,7 @@ struct VictoryPage: View {
                 // Victory text
                 Text("You Won!")
                     .font(.system(size: 70, weight: .bold, design: .rounded))
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(.bb)
                     .padding(.top)
                  
                 
@@ -38,7 +38,7 @@ struct VictoryPage: View {
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(width: 200, height: 50)
-                            .background(Color.blue)
+                            .background(Color.bb)
                             .cornerRadius(10)
                             .padding(.bottom, 20)
                     }
@@ -52,7 +52,7 @@ struct VictoryPage: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(width: 200, height: 50)
-                        .background(Color.blue)
+                        .background(Color.bb)
                         .cornerRadius(10)
                 }
                 

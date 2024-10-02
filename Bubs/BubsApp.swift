@@ -11,7 +11,7 @@ import SwiftUI
 struct BubsApp: App {
     var body: some Scene {
         WindowGroup {
-            FightingPage()
+            LevelsPage()
 
         }
     }
