@@ -57,18 +57,20 @@ struct FightingPage: View {
                         Image("superherosoap")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.3)
+                            .frame(width: 300, height: 250)
+                            .padding(.trailing, 50)
+
 
                         Spacer()
-                            .frame(width: geometry.size.width * 0.1)
+                            .frame(width: 110) // Adjusted spacing
 
                         Image("germs")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.3)
-                            .padding(.trailing, 30)
+                            .frame(width: 200, height: 200) // Fixed size for the germs character
+                            .padding(.trailing, 50)
                     }
-                    .padding(.top, 80)
+                    .padding(.top, 40)
 
                     Spacer()
                 }
