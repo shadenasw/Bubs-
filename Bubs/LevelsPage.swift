@@ -26,7 +26,7 @@ struct LevelsPage: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.bb)
+                        .background(Color.darkBlue)
                         .clipShape(Circle())
                 }
                 .position(x: 120, y: 340) // Adjust these coordinates based on your layout
@@ -40,7 +40,7 @@ struct LevelsPage: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.bb)
+                        .background(Color.darkBlue)
                         .clipShape(Circle())
                 }
                 .position(x: 360, y: 80) // Adjust these coordinates based on your layout
@@ -54,7 +54,7 @@ struct LevelsPage: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.bb)
+                        .background(Color.darkBlue)
                         .clipShape(Circle())
                 }
                 .position(x: 220, y: 130) // Adjust these coordinates based on your layout
@@ -68,7 +68,7 @@ struct LevelsPage: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.bb)
+                        .background(Color.darkBlue)
                         .clipShape(Circle())
                 }
                 .position(x: 370, y: 310) // Adjust these coordinates based on your layout
@@ -82,7 +82,7 @@ struct LevelsPage: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.bb)
+                        .background(Color.darkBlue)
                         .clipShape(Circle())
                 }
                 .position(x: 540, y: 150) // Adjust these coordinates based on your layout
