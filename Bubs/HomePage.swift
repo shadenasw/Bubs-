@@ -34,7 +34,7 @@ struct HomePage: View {
                     }
                     
                     Text("BUBS")
-                        .font(.system(size: 70, weight: .bold, design: .rounded))
+                        .font(.custom("Vanilla", size: 70))
                         .italic()
                         .foregroundStyle(.darkBlue)
                         .padding(.top, -190)
