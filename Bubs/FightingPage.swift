@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct FightingPage: View {
     @State private var enemyHealth: CGFloat = 1.0
@@ -18,6 +19,26 @@ struct FightingPage: View {
     @State private var playerPositionY: CGFloat = 0
     @State private var gameWon: Bool = false
     @State private var navigationPath = NavigationPath()
+    @State private var audioPlayer: AVAudioPlayer?
+
+    init() {
+        playBackgroundMusic()
+    }
+
+    private func playBackgroundMusic() {
+        guard let url = Bundle.main.url(forResource: "soapBubbles", withExtension: "mp3") else {
+            print("Audio file not found")
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.numberOfLoops = -1 // Loop indefinitely
+            audioPlayer?.play()
+        } catch {
+            print("Error playing audio: \(error.localizedDescription)")
+        }
+    }
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -110,13 +131,13 @@ struct FightingPage: View {
 
                         VStack(spacing: 20) {
                             Text("Game Paused")
-                                .font(.custom("Vanilla", size: 36 ))
-                            //weight:.bold, design: .rounded
+                                .font(.custom("Vanilla", size: 36))
                                 .foregroundColor(.darkBlue)
 
                             HStack(spacing: 40) {
                                 Button(action: {
-                                    print("Back to Levels")
+                                    // Navigate back to HomePage
+                                    navigationPath.removeLast(navigationPath.count)
                                 }) {
                                     VStack {
                                         Image(systemName: "house.circle.fill")
@@ -146,8 +167,9 @@ struct FightingPage: View {
                         .padding(.horizontal, 20)
                     }
 
+                    // Navigate to VictoryPage when gameWon is true
                     if gameWon {
-                        NavigationLink(value: "VictoryPage") {
+                        NavigationLink(destination: VictoryPage(), isActive: $gameWon) {
                             EmptyView()
                         }
                     }
