@@ -110,7 +110,8 @@ struct FightingPage: View {
 
                         VStack(spacing: 20) {
                             Text("Game Paused")
-                                .font(.system(size: 36, weight: .bold, design: .rounded))
+                                .font(.custom("Vanilla", size: 36 ))
+                            //weight:.bold, design: .rounded
                                 .foregroundColor(.darkBlue)
 
                             HStack(spacing: 40) {
