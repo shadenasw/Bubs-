@@ -29,16 +29,6 @@
 		FFFFD8AF2CA99A7B002B9E94 /* BubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0276ECFD2CAEE6D200DBD266 /* Exceptions for "Bubs" folder in "Bubs" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = FFFFD8942CA99A79002B9E94 /* Bubs */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0276ECF92CAEE62900DBD266 /* FONTS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -47,9 +37,6 @@
 		};
 		FFFFD8972CA99A79002B9E94 /* Bubs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0276ECFD2CAEE6D200DBD266 /* Exceptions for "Bubs" folder in "Bubs" target */,
-			);
 			path = Bubs;
 			sourceTree = "<group>";
 		};
