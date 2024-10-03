@@ -29,27 +29,9 @@
 		FFFFD8AF2CA99A7B002B9E94 /* BubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0276EC252CAECCD600DBD266 /* Exceptions for "Bubs" folder in "Bubs" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = FFFFD8942CA99A79002B9E94 /* Bubs */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0276EC212CAECBB100DBD266 /* Font */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Font;
-			sourceTree = "<group>";
-		};
 		FFFFD8972CA99A79002B9E94 /* Bubs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0276EC252CAECCD600DBD266 /* Exceptions for "Bubs" folder in "Bubs" target */,
-			);
 			path = Bubs;
 			sourceTree = "<group>";
 		};
@@ -98,7 +80,6 @@
 		FFFFD88C2CA99A79002B9E94 = {
 			isa = PBXGroup;
 			children = (
-				0276EC212CAECBB100DBD266 /* Font */,
 				FFFFD9CC2CAC2AB1002B9E94 /* Audios */,
 				FFFFD8972CA99A79002B9E94 /* Bubs */,
 				FFFFD8A82CA99A7B002B9E94 /* BubsTests */,
@@ -133,7 +114,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0276EC212CAECBB100DBD266 /* Font */,
 				FFFFD8972CA99A79002B9E94 /* Bubs */,
 				FFFFD9CC2CAC2AB1002B9E94 /* Audios */,
 			);
@@ -426,7 +406,6 @@
 				DEVELOPMENT_TEAM = WC7G6K3B6X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Bubs/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,7 +435,6 @@
 				DEVELOPMENT_TEAM = WC7G6K3B6X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Bubs/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
