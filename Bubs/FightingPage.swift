@@ -167,17 +167,16 @@ struct FightingPage: View {
                         .padding(.horizontal, 20)
                     }
 
-                    // Navigate to VictoryPage when gameWon is true
                     if gameWon {
-                        NavigationLink(destination: VictoryPage(), isActive: $gameWon) {
-                            EmptyView()
+                        NavigationLink(value: "VictoryPage") {
+                            EmptyView() // The label can be empty since we are navigating programmatically
                         }
                     }
                 }
-            }
-            .navigationDestination(for: String.self) { value in
-                if value == "VictoryPage" {
-                    VictoryPage()
+                .navigationDestination(for: String.self) { value in
+                    if value == "VictoryPage" {
+                        VictoryPage() // Navigate to VictoryPage when the value matches
+                    }
                 }
             }
         }
