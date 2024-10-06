@@ -4,10 +4,10 @@ import AVFoundation
 
 struct LevelsPage: View {
     @State private var showHandImage = false
-    @State private var showGif = false
     @State private var currentLevel = 0
     @State private var audioPlayer: AVAudioPlayer?
-    @State private var navigateToFightingPage = false // حالة الانتقال
+    @State private var navigateToFightingPage = false // حالة الانتقال إلى صفحة القتال
+    @State private var selectedLevel: Int? // مستوى مختار
 
     var body: some View {
         NavigationView {
@@ -18,27 +18,13 @@ struct LevelsPage: View {
                     .aspectRatio(contentMode: .fill)
                     .ignoresSafeArea()
 
-                // عرض الـ GIF في الأعلى إذا كانت الحالة true
-                if showGif {
-                    if let url = Bundle.main.url(forResource: "wash", withExtension: "gif") {
-                        KFImage(url)
-                            .resizable()
-                            .scaledToFit()
-                            .padding(10)
-                            .position(x: 370, y: 310)
-                    } else {
-                        Text("Unable to load GIF")
-                            .foregroundColor(.red)
-                    }
-                }
-
-                // عرض صورة اليد عند النقر على زر المستوى 1
+                // عرض صورة اليد عند النقر على زر المستوى 4
                 if showHandImage {
-                    Image("hand")
+                    Image("wash") // تأكد من وجود صورة wash.png في مشروعك
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
-                        .position(x: 200, y: 300)
+                        .position(x: 200, y: 300) // موقع الصورة
                 }
 
                 // أزرار المستويات
@@ -58,7 +44,9 @@ struct LevelsPage: View {
 
                     // زر المستوى 2
                     Button(action: {
-                        levelSelected(2)
+                        if currentLevel >= 1 {
+                            levelSelected(2)
+                        }
                     }) {
                         Text("2")
                             .font(.largeTitle)
@@ -72,7 +60,9 @@ struct LevelsPage: View {
 
                     // زر المستوى 3
                     Button(action: {
-                        levelSelected(3)
+                        if currentLevel >= 2 {
+                            levelSelected(3)
+                        }
                     }) {
                         Text("3")
                             .font(.largeTitle)
@@ -86,7 +76,9 @@ struct LevelsPage: View {
 
                     // زر المستوى 4
                     Button(action: {
-                        levelSelected(4)
+                        if currentLevel >= 3 {
+                            levelSelected(4)
+                        }
                     }) {
                         Text("4")
                             .font(.largeTitle)
@@ -100,7 +92,9 @@ struct LevelsPage: View {
 
                     // زر المستوى 5
                     Button(action: {
-                        levelSelected(5)
+                        if currentLevel >= 4 {
+                            levelSelected(5)
+                        }
                     }) {
                         Text("5")
                             .font(.largeTitle)
@@ -113,10 +107,8 @@ struct LevelsPage: View {
                     .disabled(currentLevel < 4)
                 }
 
-                // ايقونة house.fill
-                Button(action: {
-                    print("house ")
-                }) {
+                // رابط للانتقال إلى الصفحة الرئيسية
+                NavigationLink(destination: HomePage()) {
                     Image(systemName: "house.fill")
                         .font(.largeTitle)
                         .foregroundColor(.white)
@@ -132,25 +124,51 @@ struct LevelsPage: View {
                     EmptyView()
                 }
             )
+            .onAppear {
+                // إعادة تعيين الحالة عند ظهور الصفحة
+                navigateToFightingPage = false
+            }
         }
     }
 
     // دالة للتعامل مع ضغط الأزرار
     func levelSelected(_ level: Int) {
         if level == 1 {
-            playSound() // تشغيل الصوت عند النقر على زر 1
-            showGif.toggle() // تغيير حالة الـ GIF عند النقر على زر المستوى 1
-            showHandImage = true // إظهار صورة اليد عند النقر على زر 1
-            currentLevel = 1 // تحديث الرقم الحالي
+            // الانتقال إلى المستوى 1
+            selectedLevel = level
+            currentLevel = 1
+            navigateToFightingPage = true
+        } else if level == 2 {
+            // الانتقال إلى المستوى 2 مع تشغيل الصوت
+            playSound() // تشغيل الصوت عند النقر على زر 2
+            selectedLevel = level
+            currentLevel = 2
             
-            // الانتقال بعد 10 ثوانٍ
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                showHandImage = false // إخفاء صورة اليد
-                navigateToFightingPage = true // الانتقال إلى صفحة القتال
+            // الانتقال بعد 5 ثوانٍ
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                navigateToFightingPage = true // الانتقال إلى صفحة القتال بعد 5 ثوانٍ
             }
-        } else if level <= 5 {
-            currentLevel = level // تحديث الرقم الحالي
-            print("Level \(level) selected")
+        } else if level == 3 {
+            // الانتقال إلى المستوى 3
+            selectedLevel = level
+            currentLevel = 3
+            navigateToFightingPage = true
+        } else if level == 4 {
+            // الانتقال إلى المستوى 4 مع إظهار صورة اليد
+            showHandImage = true
+            
+            // الانتقال بعد 4 ثوانٍ
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                showHandImage = false // إخفاء صورة اليد بعد الانتقال
+                navigateToFightingPage = true // الانتقال إلى صفحة القتال بعد 4 ثوانٍ
+            }
+            selectedLevel = level
+            currentLevel = 4
+        } else if level == 5 {
+            // الانتقال إلى المستوى 5
+            selectedLevel = level
+            currentLevel = 5
+            navigateToFightingPage = true
         }
     }
 
@@ -169,8 +187,6 @@ struct LevelsPage: View {
         }
     }
 }
-
-
 
 #Preview {
     LevelsPage()
