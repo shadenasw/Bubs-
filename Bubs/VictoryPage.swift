@@ -23,7 +23,10 @@ struct VictoryPage: View {
                     
                     // Victory text
                     Text("You Won!")
+                        .font(.custom("Vanilla", size: 70))
                         .font(.system(size: 70, weight: .bold, design: .rounded))
+                        .font(.custom("Vanilla", size: 70))
+
                         .foregroundStyle(.darkBlue)
                         .padding(.top)
                     
