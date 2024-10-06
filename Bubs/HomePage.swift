@@ -27,7 +27,7 @@ struct HomePage: View {
                     Button(action: {
                         print("play button pressed")
                     }) {
-                        NavigationLink(destination: LevelsPage()) {
+                        NavigationLink(destination: LevelsPage().navigationBarBackButtonHidden(true)) {
                             Image(systemName: "play.circle.fill")
                                 .resizable()
                                 .frame(width: 100, height: 100)

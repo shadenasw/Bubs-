@@ -120,7 +120,7 @@ struct LevelsPage: View {
                 .position(x: 50, y: 50)
             }
             .background(
-                NavigationLink(destination: FightingPage(), isActive: $navigateToFightingPage) {
+                NavigationLink(destination: FightingPage().navigationBarBackButtonHidden(true), isActive: $navigateToFightingPage) {
                     EmptyView()
                 }
             )
