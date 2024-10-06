@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
-
+import AVFoundation
+var audioPlayer: AVAudioPlayer?
 struct HomePage: View {
     @State private var bubbleOffset: CGFloat = 0.0
     @State private var scale: CGFloat = 1.0
     @State private var animateBubbles = false
+    @State private var animateBubbles1 = false
+    
     
     var body: some View {
         NavigationView {
@@ -222,11 +225,40 @@ struct HomePage: View {
                     .onAppear{
                         withAnimation(Animation.easeInOut(duration: 3)
                             .repeatForever(autoreverses: false))
-                        { animateBubbles = true}}
+                        { animateBubbles1 = true}}
+                    .onAppear {
+                                        // Start the bubble animation and play sound with each cycle
+                                        animateBubbleWithSound()
+                
             }
         }
     }
 }
+    func animateBubbleWithSound() {
+            withAnimation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: false)) {
+                animateBubbles = true
+            }
+
+    
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { _ in
+                playSound()
+            }
+        }
+
+        // Play sound function
+        func playSound() {
+            if let path = Bundle.main.path(forResource: "soapBubbles", ofType: "mp3") {
+                let url = URL(fileURLWithPath: path)
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    audioPlayer?.numberOfLoops = 0 // Play once for each bubble animation
+                    audioPlayer?.play()
+                } catch {
+                    print("Error: Could not play the sound file.")
+                }
+            }
+        }
+    }
 
 #Preview {
     HomePage()
