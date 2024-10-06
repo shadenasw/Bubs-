@@ -18,7 +18,6 @@ struct FightingPage: View {
     @State private var playerPositionX: CGFloat = 0
     @State private var playerPositionY: CGFloat = 0
     @State private var gameWon: Bool = false
-    @State private var navigationPath = NavigationPath()
     @State private var audioPlayer: AVAudioPlayer?
 
     init() {
@@ -41,7 +40,7 @@ struct FightingPage: View {
     }
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        NavigationStack {
             GeometryReader { geometry in
                 ZStack {
                     Image("fightBackground")
@@ -135,28 +134,21 @@ struct FightingPage: View {
                                 .foregroundColor(.darkBlue)
 
                             HStack(spacing: 40) {
-                                Button(action: {
-                                    // Navigate back to HomePage
-                                    navigationPath.removeLast(navigationPath.count)
-                                }) {
-                                    VStack {
-                                        Image("houseicon")
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(.red)
-                                    }
+                                NavigationLink(destination: HomePage().navigationBarBackButtonHidden(true)) {
+                                    Image("houseicon")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .foregroundColor(.red)
                                 }
 
                                 Button(action: {
                                     enemyHealth = 1.0
                                     isPaused = false
                                 }) {
-                                    VStack {
-                                        Image(systemName: "arrow.counterclockwise")
-                                            .resizable()
-                                            .frame(width: 40, height: 50)
-                                            .foregroundColor(.black)
-                                    }
+                                    Image(systemName: "arrow.counterclockwise")
+                                        .resizable()
+                                        .frame(width: 40, height: 50)
+                                        .foregroundColor(.black)
                                 }
                             }
                         }
@@ -167,19 +159,13 @@ struct FightingPage: View {
                         .padding(.horizontal, 20)
                     }
 
-                    if gameWon {
-                        NavigationLink(value: "VictoryPage") {
-                            EmptyView() // The label can be empty since we are navigating programmatically
-                        }
-                    }
+                    // Remove deprecated NavigationLink
                 }
-                .navigationDestination(for: String.self) { value in
-                    if value == "VictoryPage" {
-                        VictoryPage() // Navigate to VictoryPage when the value matches
-                    }
-                }
+            } // GeometryReader
+            .navigationDestination(isPresented: $gameWon) {
+                VictoryPage() // Navigate to VictoryPage when gameWon becomes true
             }
-        }
+        } // NavigationStack
     }
 
     func throwSoap() {
