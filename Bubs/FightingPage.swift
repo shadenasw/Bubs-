@@ -27,7 +27,7 @@ struct FightingPage: View {
     }
 
     private func playBackgroundMusic() {
-        guard let url = Bundle.main.url(forResource: "soapBubbles", withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: "GameMusic", withExtension: "mp3") else {
             print("Audio file not found")
             return
         }
