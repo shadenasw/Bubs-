@@ -12,7 +12,7 @@ struct BubsApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                FightingPage()
+                HomePage()
             }
         }
     }
