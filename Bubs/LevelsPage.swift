@@ -8,6 +8,7 @@ struct LevelsPage: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var navigateToFightingPage = false // حالة الانتقال إلى صفحة القتال
     @State private var selectedLevel: Int? // مستوى مختار
+    @State private var navigateToHomePage = false // حالة الانتقال إلى الصفحة الرئيسية
 
     var body: some View {
         NavigationView {
@@ -20,11 +21,16 @@ struct LevelsPage: View {
 
                 // عرض صورة اليد عند النقر على زر المستوى 4
                 if showHandImage {
-                    Image("wash") // تأكد من وجود صورة wash.png في مشروعك
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .position(x: 200, y: 300) // موقع الصورة
+                    if let url = Bundle.main.url(forResource: "hand", withExtension: "png") {
+                        KFImage(url)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .position(x: 200, y: 300)
+                    } else {
+                        Text("Unable to load image")
+                            .foregroundColor(.red)
+                    }
                 }
 
                 // أزرار المستويات
@@ -44,9 +50,7 @@ struct LevelsPage: View {
 
                     // زر المستوى 2
                     Button(action: {
-                        if currentLevel >= 1 {
-                            levelSelected(2)
-                        }
+                        levelSelected(2)
                     }) {
                         Text("2")
                             .font(.largeTitle)
@@ -60,9 +64,7 @@ struct LevelsPage: View {
 
                     // زر المستوى 3
                     Button(action: {
-                        if currentLevel >= 2 {
-                            levelSelected(3)
-                        }
+                        levelSelected(3)
                     }) {
                         Text("3")
                             .font(.largeTitle)
@@ -76,9 +78,7 @@ struct LevelsPage: View {
 
                     // زر المستوى 4
                     Button(action: {
-                        if currentLevel >= 3 {
-                            levelSelected(4)
-                        }
+                        levelSelected(4)
                     }) {
                         Text("4")
                             .font(.largeTitle)
@@ -92,9 +92,7 @@ struct LevelsPage: View {
 
                     // زر المستوى 5
                     Button(action: {
-                        if currentLevel >= 4 {
-                            levelSelected(5)
-                        }
+                        levelSelected(5)
                     }) {
                         Text("5")
                             .font(.largeTitle)
@@ -107,8 +105,8 @@ struct LevelsPage: View {
                     .disabled(currentLevel < 4)
                 }
 
-                // رابط للانتقال إلى الصفحة الرئيسية
-                NavigationLink(destination: HomePage()) {
+                // ايقونة house.fill
+                NavigationLink(destination: HomePage(), isActive: $navigateToHomePage) {
                     Image(systemName: "house.fill")
                         .font(.largeTitle)
                         .foregroundColor(.white)
@@ -120,7 +118,7 @@ struct LevelsPage: View {
                 .position(x: 50, y: 50)
             }
             .background(
-                NavigationLink(destination: FightingPage().navigationBarBackButtonHidden(true), isActive: $navigateToFightingPage) {
+                NavigationLink(destination: FightingPage(), isActive: $navigateToFightingPage) {
                     EmptyView()
                 }
             )
@@ -133,61 +131,67 @@ struct LevelsPage: View {
 
     // دالة للتعامل مع ضغط الأزرار
     func levelSelected(_ level: Int) {
-        if level == 1 {
+        switch level {
+        case 1:
             // الانتقال إلى المستوى 1
             selectedLevel = level
             currentLevel = 1
             navigateToFightingPage = true
-        } else if level == 2 {
+        case 2:
             // الانتقال إلى المستوى 2 مع تشغيل الصوت
             playSound() // تشغيل الصوت عند النقر على زر 2
             selectedLevel = level
             currentLevel = 2
             
-            // الانتقال بعد 5 ثوانٍ
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                navigateToFightingPage = true // الانتقال إلى صفحة القتال بعد 5 ثوانٍ
+            // الانتقال بعد 4 ثوانٍ
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                navigateToFightingPage = true // الانتقال إلى صفحة القتال بعد 4 ثوانٍ
             }
-        } else if level == 3 {
+        case 3:
             // الانتقال إلى المستوى 3
             selectedLevel = level
             currentLevel = 3
             navigateToFightingPage = true
-        } else if level == 4 {
+        case 4:
             // الانتقال إلى المستوى 4 مع إظهار صورة اليد
             showHandImage = true
-            
-            // الانتقال بعد 4 ثوانٍ
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                showHandImage = false // إخفاء صورة اليد بعد الانتقال
-                navigateToFightingPage = true // الانتقال إلى صفحة القتال بعد 4 ثوانٍ
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                showHandImage = false // إخفاء صورة اليد بعد ثانية
             }
             selectedLevel = level
             currentLevel = 4
-        } else if level == 5 {
+            navigateToFightingPage = true
+        case 5:
             // الانتقال إلى المستوى 5
             selectedLevel = level
             currentLevel = 5
             navigateToFightingPage = true
+        default:
+            break
         }
     }
 
     // دالة لتشغيل الصوت
     func playSound() {
-        guard let url = Bundle.main.url(forResource: "hand-washing-8483", withExtension: "mp3") else {
-            print("Audio file not found.")
-            return
-        }
-
         do {
+            // إعداد Audio Session
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            guard let url = Bundle.main.url(forResource: "hand-washing-8483", withExtension: "mp3") else {
+                print("Audio file not found.")
+                return
+            }
+
             audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.prepareToPlay() // تحضير الصوت للتشغيل
             audioPlayer?.play()
+            print("Playing sound")
         } catch {
-            print("Error playing sound: \(error.localizedDescription)")
+            print("Error setting up audio session or playing sound: \(error.localizedDescription)")
         }
     }
 }
 
-#Preview {
-    LevelsPage()
-}
+
+
