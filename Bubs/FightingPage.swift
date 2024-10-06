@@ -140,7 +140,7 @@ struct FightingPage: View {
                                     navigationPath.removeLast(navigationPath.count)
                                 }) {
                                     VStack {
-                                        Image(systemName: "house.circle.fill")
+                                        Image("houseicon")
                                             .resizable()
                                             .frame(width: 50, height: 50)
                                             .foregroundColor(.red)
@@ -152,10 +152,10 @@ struct FightingPage: View {
                                     isPaused = false
                                 }) {
                                     VStack {
-                                        Image(systemName: "arrow.counterclockwise.circle.fill")
+                                        Image(systemName: "arrow.counterclockwise")
                                             .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(.green)
+                                            .frame(width: 40, height: 50)
+                                            .foregroundColor(.black)
                                     }
                                 }
                             }
