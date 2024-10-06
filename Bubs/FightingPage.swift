@@ -22,39 +22,6 @@ struct FightingPage: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var clickAudioPlayer: AVAudioPlayer?
 
-    init() {
-        playBackgroundMusic()
-    }
-
-    private func playBackgroundMusic() {
-        guard let url = Bundle.main.url(forResource: "GameMusic", withExtension: "mp3") else {
-            print("Audio file not found")
-            return
-        }
-
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = -1 // Loop indefinitely
-            audioPlayer?.play()
-        } catch {
-            print("Error playing audio: \(error.localizedDescription)")
-        }
-    }
-
-    private func playClickSound() {
-        guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else {
-            print("Click audio file not found")
-            return
-        }
-
-        do {
-            clickAudioPlayer = try AVAudioPlayer(contentsOf: url)
-            clickAudioPlayer?.play()
-        } catch {
-            print("Error playing click audio: \(error.localizedDescription)")
-        }
-    }
-
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -177,9 +144,41 @@ struct FightingPage: View {
                     }
                 }
             }
+            .onAppear {
+                playBackgroundMusic()
+            }
             .navigationDestination(isPresented: $gameWon) {
                 VictoryPage() // Navigate to VictoryPage when gameWon becomes true
             }
+        }
+    }
+
+    private func playBackgroundMusic() {
+        guard let url = Bundle.main.url(forResource: "backgroundMusic", withExtension: "mp3") else {
+            print("Audio file not found")
+            return
+        }
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.numberOfLoops = -1 // Loop indefinitely
+            audioPlayer?.play()
+        } catch {
+            print("Error playing audio: \(error.localizedDescription)")
+        }
+    }
+
+    private func playClickSound() {
+        guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else {
+            print("Click audio file not found")
+            return
+        }
+
+        do {
+            clickAudioPlayer = try AVAudioPlayer(contentsOf: url)
+            clickAudioPlayer?.play()
+        } catch {
+            print("Error playing click audio: \(error.localizedDescription)")
         }
     }
 
