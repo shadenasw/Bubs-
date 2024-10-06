@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ECEB34E72CB2B6DB00229E57 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = ECEB34E62CB2B6DB00229E57 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FFFFD8A62CA99A7B002B9E94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -85,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECEB34E72CB2B6DB00229E57 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +154,7 @@
 			);
 			name = Bubs;
 			packageProductDependencies = (
+				ECEB34E62CB2B6DB00229E57 /* Kingfisher */,
 			);
 			productName = Bubs;
 			productReference = FFFFD8952CA99A79002B9E94 /* Bubs.app */;
@@ -232,6 +238,9 @@
 			);
 			mainGroup = FFFFD88C2CA99A79002B9E94;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ECEB34E52CB2B31200229E57 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FFFFD8962CA99A79002B9E94 /* Products */;
 			projectDirPath = "";
@@ -595,6 +604,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ECEB34E52CB2B31200229E57 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ECEB34E62CB2B6DB00229E57 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECEB34E52CB2B31200229E57 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FFFFD88D2CA99A79002B9E94 /* Project object */;
 }
