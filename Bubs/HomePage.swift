@@ -240,7 +240,7 @@ struct HomePage: View {
             }
 
     
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
                 playSound()
             }
         }
