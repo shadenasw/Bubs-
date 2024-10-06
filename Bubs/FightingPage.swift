@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import AudioToolbox
 
 struct FightingPage: View {
     @State private var enemyHealth: CGFloat = 1.0
@@ -19,6 +20,7 @@ struct FightingPage: View {
     @State private var playerPositionY: CGFloat = 0
     @State private var gameWon: Bool = false
     @State private var audioPlayer: AVAudioPlayer?
+    @State private var clickAudioPlayer: AVAudioPlayer?
 
     init() {
         playBackgroundMusic()
@@ -39,6 +41,20 @@ struct FightingPage: View {
         }
     }
 
+    private func playClickSound() {
+        guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else {
+            print("Click audio file not found")
+            return
+        }
+
+        do {
+            clickAudioPlayer = try AVAudioPlayer(contentsOf: url)
+            clickAudioPlayer?.play()
+        } catch {
+            print("Error playing click audio: \(error.localizedDescription)")
+        }
+    }
+
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -56,6 +72,7 @@ struct FightingPage: View {
                                 .padding(.top, 40)
 
                             Button(action: {
+                                playClickSound() // Play click sound
                                 isPaused.toggle()
                             }) {
                                 Image(systemName: "pause.circle.fill")
@@ -158,14 +175,12 @@ struct FightingPage: View {
                         .shadow(radius: 10)
                         .padding(.horizontal, 20)
                     }
-
-                    // Remove deprecated NavigationLink
                 }
-            } // GeometryReader
+            }
             .navigationDestination(isPresented: $gameWon) {
                 VictoryPage() // Navigate to VictoryPage when gameWon becomes true
             }
-        } // NavigationStack
+        }
     }
 
     func throwSoap() {
