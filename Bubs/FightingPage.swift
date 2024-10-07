@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AVFoundation
-import AudioToolbox
 
 struct FightingPage: View {
     @State private var enemyHealth: CGFloat = 1.0
@@ -21,6 +20,8 @@ struct FightingPage: View {
     @State private var gameWon: Bool = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var clickAudioPlayer: AVAudioPlayer?
+    @State private var throwAudioPlayer: AVAudioPlayer?
+    @State private var hitAudioPlayer: AVAudioPlayer?
 
     var body: some View {
         NavigationStack {
@@ -29,78 +30,81 @@ struct FightingPage: View {
                     Image("fightBackground")
                         .resizable()
                         .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
+                        .edgesIgnoringSafeArea(.all) // Ensure it ignores safe area insets
 
-                    VStack {
-                        HStack {
-                            HealthBar(health: enemyHealth)
-                                .frame(height: 20)
-                                .padding(.leading, 20)
-                                .padding(.top, 40)
+                    GeometryReader { geometry in
+                        VStack {
+                            HStack {
+                                Spacer()
 
-                            Spacer()
-
-                            Button(action: {
-                                playClickSound() // Play click sound
-                                isPaused.toggle()
-                            }) {
-                                Image(systemName: "pause.circle.fill")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundStyle(.white, .darkBlue)
+                                HealthBar(health: enemyHealth)
+                                    .frame(height: 20)
                                     .padding(.trailing, 20)
                                     .padding(.top, 40)
+
+                                Button(action: {
+                                    playClickSound() // Play click sound
+                                    isPaused.toggle()
+                                }) {
+                                    Image(systemName: "pause.circle.fill")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .foregroundStyle(.white, .darkBlue)
+                                        .padding(.trailing, 20)
+                                        .padding(.top, 40)
+                                }
                             }
-                        }
-
-                        Spacer()
-
-                        // Main Fighting Area
-                        HStack {
-                            // Throw Soap Button
-                            Button(action: {
-                                throwSoap(geometry: geometry)
-                            }) {
-                                Image(systemName: "wand.and.rays")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.black)
-                                    .scaleEffect(x: -1, y: 1)
-                                    .padding(.leading, 30)
-                            }
-
-                            // Player Image
-                            Image("superherosoap")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300, height: 250)
-                                .padding(.trailing, 50)
-                                .background(
-                                    GeometryReader { playerGeo in
-                                        Color.clear
-                                            .onAppear {
-                                                let localFrame = playerGeo.frame(in: .local)
-                                                playerPositionX = localFrame.midX
-                                                playerPositionY = localFrame.midY + 50 // Adjust Y offset here
-                                            }
-                                    }
-                                )
 
                             Spacer()
-                                .frame(width: 110)
 
-                            // Enemy Image
-                            Image("germs")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 200, height: 200)
-                                .padding(.trailing, 50)
-                                .opacity(enemyHit ? 0.5 : 1)
-                                .animation(.easeInOut(duration: 0.3), value: enemyHit)
+                            // Main Fighting Area
+                            HStack {
+                                // Enemy Image
+                                Image("germs")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .scaleEffect(x: -1, y: 1)
+                                    .frame(width: 200, height: 200)
+                                    .padding(.trailing, 50)
+                                    .opacity(enemyHit ? 0.5 : 1)
+                                    .animation(.easeInOut(duration: 0.3), value: enemyHit)
+
+                                Spacer()
+                                    .frame(width: 50)
+
+                                // Player Image
+                                Image("superherosoap")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .scaleEffect(x: -1, y: 1)
+                                    .frame(width: 300, height: 250)
+                                    .background(
+                                        GeometryReader { playerGeo in
+                                            Color.clear
+                                                .onAppear {
+                                                    let localFrame = playerGeo.frame(in: .local)
+                                                    playerPositionX = localFrame.maxX - 100 // Position from the right side
+                                                    playerPositionY = localFrame.midY + 50 // Adjust Y offset here
+                                                }
+                                        }
+                                    )
+
+                                // Throw Soap Button
+                                Button(action: {
+                                    throwSoap(geometry: geometry)
+                                }) {
+                                    Image(systemName: "wand.and.rays")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.black)
+                                        .scaleEffect(x: -1, y: 1)
+                                        .padding(.trailing, 30)
+                                }
+                            }
+                            .padding(.top, 40)
+
+                            Spacer()
                         }
-                        .padding(.top, 40)
-
-                        Spacer()
                     }
 
                     // Soap Projectile Animation
@@ -151,10 +155,10 @@ struct FightingPage: View {
                         .background(Color.white.opacity(0.9))
                         .cornerRadius(25)
                         .shadow(radius: 10)
-                        .padding(.horizontal, 20)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity) // Make the overlay occupy full screen
+                        .padding() // Add padding to keep the contents centered
                     }
-                }
-                .onAppear {
+                }                .onAppear {
                     playBackgroundMusic()
                 }
                 .navigationDestination(isPresented: $gameWon) {
@@ -196,25 +200,64 @@ struct FightingPage: View {
         }
     }
 
+    private func playThrowSound() {
+        guard let url = Bundle.main.url(forResource: "pow", withExtension: "mp3") else {
+            print("Throw audio file not found")
+            return
+        }
+
+        do {
+            throwAudioPlayer = try AVAudioPlayer(contentsOf: url)
+            throwAudioPlayer?.play()
+        } catch {
+            print("Error playing throw audio: \(error.localizedDescription)")
+        }
+    }
+
+    private func playHitSound() {
+        guard let url = Bundle.main.url(forResource: "ow", withExtension: "mp3") else {
+            print("Hit audio file not found")
+            return
+        }
+
+        do {
+            hitAudioPlayer = try AVAudioPlayer(contentsOf: url)
+            hitAudioPlayer?.play()
+        } catch {
+            print("Error playing hit audio: \(error.localizedDescription)")
+        }
+    }
+
     // MARK: - Game Functions
 
     func throwSoap(geometry: GeometryProxy) {
-        soapPositionX = playerPositionX
+        // Set the soap position to the right side of the screen (adjust this as needed)
+        soapPositionX = geometry.size.width - 50 // Starting position near the right edge
         soapPositionY = playerPositionY
+        
         showSoap = true
+        playThrowSound() // Play throw sound effect
 
         withAnimation(.linear(duration: 0.5)) {
-            soapPositionX += 400 // Adjust this value as needed for screen size
+            // Move the soap towards the left side of the screen
+            soapPositionX = 50 // Adjust this value based on where you want it to hit the enemy
+            soapPositionY = playerPositionY // Keep the Y position consistent with the player
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // After the animation, reduce enemy health
             enemyHealth -= 0.3
             enemyHit = true
             showSoap = false
+            
+            // Reset soap position
             soapPositionX = playerPositionX
+            playHitSound()  // Play hit sound effect
+
             if enemyHealth <= 0 {
                 gameWon = true  // Trigger victory if health drops to zero
             }
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 enemyHit = false
             }
@@ -233,10 +276,12 @@ struct HealthBar: View {
                 Rectangle()
                     .frame(height: 20)
                     .foregroundColor(.gray)
+                    .animation(.easeInOut(duration: 0.3), value: health) // Add animation for health depletion
 
                 Rectangle()
                     .frame(width: (geometry.size.width) * health, height: 20)
                     .foregroundColor(.green)
+                    .animation(.easeInOut(duration: 0.3), value: health) // Add animation for health depletion
             }
             .cornerRadius(10)
         }
