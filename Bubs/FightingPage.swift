@@ -187,21 +187,6 @@ struct FightingPage: View {
 
     // MARK: - Audio Functions
 
-    private func playBackgroundMusic() {
-        guard let url = Bundle.main.url(forResource: "backgroundMusic", withExtension: "mp3") else {
-            print("Audio file not found")
-            return
-        }
-
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = -1 // Loop indefinitely
-            audioPlayer?.play()
-        } catch {
-            print("Error playing audio: \(error.localizedDescription)")
-        }
-    }
-
     private func playClickSound() {
         guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else {
             print("Click audio file not found")
