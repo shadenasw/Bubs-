@@ -167,7 +167,10 @@ struct FightingPage: View {
                     }
                 }
                 .onAppear {
-                    playBackgroundMusic()
+                    GameMusicPlayer.shared.playFightingMusic() // Start playing fighting music
+                }
+                .onDisappear {
+                    GameMusicPlayer.shared.stop() // Stop the music when leaving the fighting page
                 }
                 .navigationDestination(isPresented: $gameWon) {
                     VictoryPage()

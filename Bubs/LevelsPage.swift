@@ -126,7 +126,14 @@ struct LevelsPage: View {
                 // إعادة تعيين الحالة عند ظهور الصفحة
                 navigateToFightingPage = false
             }
+        }.onAppear {
+            navigateToFightingPage = false
+            GameMusicPlayer.shared.playBackgroundMusic() // Start the music
         }
+        .onDisappear {
+            GameMusicPlayer.shared.pause() // Pause the music
+        }
+
     }
 
     // دالة للتعامل مع ضغط الأزرار

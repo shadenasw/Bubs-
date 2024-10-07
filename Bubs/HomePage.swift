@@ -227,7 +227,9 @@ struct HomePage: View {
                     .onAppear {
                                         startBubbleAnimationWithSound(repeats: 3)  // Animate bubbles and play sound for 5 repeats
                                     }
-        }
+            }            .onAppear {
+                // Start playing background music when the homepage appears
+                GameMusicPlayer.shared.playBackgroundMusic() }
     }
 }
     func startBubbleAnimationWithSound(repeats: Int) {

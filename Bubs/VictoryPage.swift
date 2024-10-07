@@ -1,4 +1,6 @@
 import SwiftUI
+import AVFoundation
+
 
 struct VictoryPage: View {
     @State private var levelsCompleted = 0 // Tracks completed levels
@@ -59,7 +61,10 @@ struct VictoryPage: View {
                 }
                 .padding(.bottom, 50)
                 
+            }.onAppear {
+                GameMusicPlayer.shared.playBackgroundMusic() // Start playing background music
             }
+
         }
     }
 }
