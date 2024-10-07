@@ -18,6 +18,7 @@ struct FightingPage: View {
     @State private var playerPositionX: CGFloat = 0
     @State private var playerPositionY: CGFloat = 0
     @State private var gameWon: Bool = false
+    @State private var homePage: Bool = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var clickAudioPlayer: AVAudioPlayer?
     @State private var throwAudioPlayer: AVAudioPlayer?
@@ -97,7 +98,6 @@ struct FightingPage: View {
                                         .resizable()
                                         .frame(width: 60, height: 60)
                                         .foregroundColor(.black)
-                                        .scaleEffect(x: -1, y: 1)
                                         .padding(.trailing, 30)
                                 }
                             }
@@ -132,15 +132,22 @@ struct FightingPage: View {
 
                             HStack(spacing: 40) {
                                 // Home Button
-                                NavigationLink(destination: HomePage().navigationBarBackButtonHidden(true)) {
-                                    Image("houseicon")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(.red)
-                                }
+                                  Button(action: {
+                                      playClickSound() // Play click sound when the icon is tapped
+                                      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Delay for the click sound to play
+                                          // Perform navigation here
+                                          homePage = true // Set this to true to trigger navigation
+                                      }
+                                  }) {
+                                      Image("houseicon")
+                                          .resizable()
+                                          .frame(width: 50, height: 50)
+                                          .foregroundColor(.red)
+                                  }
 
                                 // Reset Button
                                 Button(action: {
+                                    playClickSound() // Play click sound
                                     enemyHealth = 1.0
                                     isPaused = false
                                 }) {
@@ -158,13 +165,19 @@ struct FightingPage: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity) // Make the overlay occupy full screen
                         .padding() // Add padding to keep the contents centered
                     }
-                }                .onAppear {
+                }
+                .onAppear {
                     playBackgroundMusic()
                 }
                 .navigationDestination(isPresented: $gameWon) {
                     VictoryPage()
                         .navigationBarBackButtonHidden(true)
                 }
+                .navigationDestination(isPresented: $homePage) {
+                    HomePage()
+                        .navigationBarBackButtonHidden(true)
+                }
+
             }
         }
     }
@@ -285,7 +298,7 @@ struct HealthBar: View {
             }
             .cornerRadius(10)
         }
-        .padding(.horizontal, 20)
+        .frame(maxWidth: .infinity) // Make the health bar occupy full width
     }
 }
 
