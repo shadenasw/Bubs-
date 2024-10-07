@@ -13,6 +13,8 @@ struct HomePage: View {
     @State private var scale: CGFloat = 1.0
     @State private var animateBubbles = false
     @State private var animateBubbles1 = false
+    @State private var animateBubblesWithSound = false
+    @State private var playCount = 0
     
     
     var body: some View {
@@ -220,38 +222,44 @@ struct HomePage: View {
                         { animateBubbles = true}}
                 Image("bubbles")
                     .resizable()
-                    .frame(width:80, height: 80)
-                    .position(x:UIScreen.main.bounds.width/1.9,y: animateBubbles ? -200:900)
-                    .onAppear{
-                        withAnimation(Animation.easeInOut(duration: 3)
-                            .repeatForever(autoreverses: false))
-                        { animateBubbles1 = true}}
+                    .frame(width:50, height: 50)
+                    .position(x:UIScreen.main.bounds.width/1.9,y: animateBubblesWithSound ? -200:900)
                     .onAppear {
-                                        // Start the bubble animation and play sound with each cycle
-                                        animateBubbleWithSound()
-                
-            }
+                                        startBubbleAnimationWithSound(repeats: 3)  // Animate bubbles and play sound for 5 repeats
+                                    }
         }
     }
 }
-    func animateBubbleWithSound() {
+    func startBubbleAnimationWithSound(repeats: Int) {
+            // Reset the play count
+            playCount = 0
+
+            // Animate the bubble with sound
             withAnimation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: false)) {
-                animateBubbles = true
+                animateBubblesWithSound = true
             }
 
-    
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-                playSound()
+            // Use a Timer to manage sound playback and stop after the required number of repeats
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
+                if playCount < repeats {
+                    playSound()  // Play the sound
+                    playCount += 1
+                } else {
+                    timer.invalidate()  // Stop the timer after 5 repetitions
+                    withAnimation {
+                        animateBubblesWithSound = false  // Optionally stop bubble animation
+                    }
+                }
             }
         }
 
-        // Play sound function
+        // Function to play the sound for the bubble animation
         func playSound() {
             if let path = Bundle.main.path(forResource: "soapBubbles", ofType: "mp3") {
                 let url = URL(fileURLWithPath: path)
                 do {
                     audioPlayer = try AVAudioPlayer(contentsOf: url)
-                    audioPlayer?.numberOfLoops = 0 // Play once for each bubble animation
+                    audioPlayer?.numberOfLoops = 0  // Play sound only once for each call
                     audioPlayer?.play()
                 } catch {
                     print("Error: Could not play the sound file.")
