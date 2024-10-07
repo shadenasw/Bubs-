@@ -38,6 +38,8 @@ struct FightingPage: View {
                                 .padding(.leading, 20)
                                 .padding(.top, 40)
 
+                            Spacer()
+
                             Button(action: {
                                 playClickSound() // Play click sound
                                 isPaused.toggle()
@@ -53,9 +55,11 @@ struct FightingPage: View {
 
                         Spacer()
 
+                        // Main Fighting Area
                         HStack {
+                            // Throw Soap Button
                             Button(action: {
-                                throwSoap()
+                                throwSoap(geometry: geometry)
                             }) {
                                 Image(systemName: "wand.and.rays")
                                     .resizable()
@@ -65,6 +69,7 @@ struct FightingPage: View {
                                     .padding(.leading, 30)
                             }
 
+                            // Player Image
                             Image("superherosoap")
                                 .resizable()
                                 .scaledToFit()
@@ -74,8 +79,9 @@ struct FightingPage: View {
                                     GeometryReader { playerGeo in
                                         Color.clear
                                             .onAppear {
-                                                playerPositionX = playerGeo.frame(in: .global).midX
-                                                playerPositionY = playerGeo.frame(in: .global).midY
+                                                let localFrame = playerGeo.frame(in: .local)
+                                                playerPositionX = localFrame.midX
+                                                playerPositionY = localFrame.midY + 50 // Adjust Y offset here
                                             }
                                     }
                                 )
@@ -83,6 +89,7 @@ struct FightingPage: View {
                             Spacer()
                                 .frame(width: 110)
 
+                            // Enemy Image
                             Image("germs")
                                 .resizable()
                                 .scaledToFit()
@@ -96,15 +103,17 @@ struct FightingPage: View {
                         Spacer()
                     }
 
+                    // Soap Projectile Animation
                     if showSoap {
                         Image("soapProjectile")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
-                            .position(x: soapPositionX, y: soapPositionY)
+                            .position(x: soapPositionX, y: soapPositionY + 50) // Added Y offset
                             .animation(.linear(duration: 0.5), value: soapPositionX)
                     }
 
+                    // Pause Overlay
                     if isPaused {
                         Color.black.opacity(0.4)
                             .edgesIgnoringSafeArea(.all)
@@ -118,6 +127,7 @@ struct FightingPage: View {
                                 .foregroundColor(.darkBlue)
 
                             HStack(spacing: 40) {
+                                // Home Button
                                 NavigationLink(destination: HomePage().navigationBarBackButtonHidden(true)) {
                                     Image("houseicon")
                                         .resizable()
@@ -125,6 +135,7 @@ struct FightingPage: View {
                                         .foregroundColor(.red)
                                 }
 
+                                // Reset Button
                                 Button(action: {
                                     enemyHealth = 1.0
                                     isPaused = false
@@ -143,16 +154,18 @@ struct FightingPage: View {
                         .padding(.horizontal, 20)
                     }
                 }
-            }
-            .onAppear {
-                playBackgroundMusic()
-            }
-            .navigationDestination(isPresented: $gameWon) {
-                VictoryPage()
-                    .navigationBarBackButtonHidden(true)
+                .onAppear {
+                    playBackgroundMusic()
+                }
+                .navigationDestination(isPresented: $gameWon) {
+                    VictoryPage()
+                        .navigationBarBackButtonHidden(true)
+                }
             }
         }
     }
+
+    // MARK: - Audio Functions
 
     private func playBackgroundMusic() {
         guard let url = Bundle.main.url(forResource: "backgroundMusic", withExtension: "mp3") else {
@@ -183,13 +196,15 @@ struct FightingPage: View {
         }
     }
 
-    func throwSoap() {
+    // MARK: - Game Functions
+
+    func throwSoap(geometry: GeometryProxy) {
         soapPositionX = playerPositionX
         soapPositionY = playerPositionY
         showSoap = true
 
         withAnimation(.linear(duration: 0.5)) {
-            soapPositionX += 400
+            soapPositionX += 400 // Adjust this value as needed for screen size
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -206,6 +221,8 @@ struct FightingPage: View {
         }
     }
 }
+
+// MARK: - HealthBar View
 
 struct HealthBar: View {
     var health: CGFloat
@@ -226,6 +243,8 @@ struct HealthBar: View {
         .padding(.horizontal, 20)
     }
 }
+
+// MARK: - Preview
 
 struct FightingPage_Previews: PreviewProvider {
     static var previews: some View {
