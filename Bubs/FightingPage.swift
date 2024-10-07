@@ -148,7 +148,8 @@ struct FightingPage: View {
                 playBackgroundMusic()
             }
             .navigationDestination(isPresented: $gameWon) {
-                VictoryPage() // Navigate to VictoryPage when gameWon becomes true
+                VictoryPage()
+                    .navigationBarBackButtonHidden(true)
             }
         }
     }

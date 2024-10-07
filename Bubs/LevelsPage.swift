@@ -106,7 +106,7 @@ struct LevelsPage: View {
                 }
 
                 // ايقونة house.fill
-                NavigationLink(destination: HomePage(), isActive: $navigateToHomePage) {
+                NavigationLink(destination: HomePage().navigationBarBackButtonHidden(true), isActive: $navigateToHomePage) {
                     Image(systemName: "house.fill")
                         .font(.largeTitle)
                         .foregroundColor(.white)
@@ -118,7 +118,7 @@ struct LevelsPage: View {
                 .position(x: 50, y: 50)
             }
             .background(
-                NavigationLink(destination: FightingPage(), isActive: $navigateToFightingPage) {
+                NavigationLink(destination: FightingPage().navigationBarBackButtonHidden(true), isActive: $navigateToFightingPage) {
                     EmptyView()
                 }
             )
