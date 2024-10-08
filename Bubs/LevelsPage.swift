@@ -8,6 +8,10 @@ struct LevelsPage: View {
    
     
     @State private var showHandImage = false
+    @State private var HandImage = false
+    @State private var level3 = false
+    @State private var level4 = false
+    @State private var level5 = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var navigateToFightingPage = false // حالة الانتقال إلى صفحة القتال
     @State private var navigateToHomePage = false // حالة الانتقال إلى الصفحة الرئيسية
@@ -29,20 +33,59 @@ struct LevelsPage: View {
 
                 // عرض صورة اليد عند النقر
                 if showHandImage {
-//                    if let url = Bundle.main.url(forResource: "handLevel1", withExtension: "png") {
-                        //KFImage(url)
-                    Image(.handLevel1)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .position(x: 200, y: 300)
+                    Image("open-hands")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .offset(y: 50) // Center the image
 //                    } else {
 //                        Text("Unable to load image")
 //                            .foregroundColor(.red)
 //                            .font(.largeTitle)
 //                    }
                 }
+                
+                if HandImage {
+                    Image("water")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .offset(y: 50) // Center the image
+//                    } else {
+//                        Text("Unable to load image")
+//                            .foregroundColor(.red)
+//                            .font(.largeTitle)
+//                    }
+                }
+                
+                if level3 {
+                    Image("washing-hands")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .offset(y: 50) // Center the image
+                }
 
+                if level4 {
+                    Image("handwashing")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .offset(y: 50) // Center the image
+                }
+
+                if level5 {
+                    Image("wipe")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .offset(y: 50) // Center the image
+                }
                 // أزرار المستويات
                 ZStack {
                     // زر المستوى 1
@@ -146,7 +189,7 @@ struct LevelsPage: View {
         case 1:
             // الانتقال إلى المستوى 1 مع إظهار صورة اليد
             showHandImage = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 showHandImage = false // إخفاء صورة اليد بعد 4 ثوان
                 if vm.levelsArray[0] {
                     vm.visitedLevels[0] = true // Mark level 1 as visited
@@ -158,9 +201,9 @@ struct LevelsPage: View {
         case 2:
             // الانتقال إلى المستوى 2 مع تشغيل صوت غسل اليد
             playSound() // تشغيل الصوت عند النقر على زر 2
-            showHandImage = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                showHandImage = false // إخفاء صورة اليد بعد 4 ثوان
+            HandImage = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                HandImage = false // إخفاء صورة اليد بعد 4 ثوان
                 if vm.levelsArray[1] {
                     vm.visitedLevels[1] = true // Mark level 2 as visited
                                    navigateToFightingPage = true
@@ -168,22 +211,29 @@ struct LevelsPage: View {
             }
            
         case 3:
-            
-            if vm.levelsArray[2] {
-                vm.visitedLevels[2] = true // Mark level 3 as visited
-                            navigateToFightingPage = true
-                        }
+            level3 = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                level3 = false
+                if vm.levelsArray[2] {
+                    vm.visitedLevels[2] = true // Mark level 3 as visited
+                    navigateToFightingPage = true
+                } }
         case 4:
-           
-            if vm.levelsArray[3] {
-                vm.visitedLevels[3] = true // Mark level 4 as visited
-                           navigateToFightingPage = true
-                       }
+            level4 = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                level4 = false
+                if vm.levelsArray[3] {
+                    vm.visitedLevels[3] = true // Mark level 4 as visited
+                    navigateToFightingPage = true
+                } }
         case 5:
-            if vm.levelsArray[4] {
-                vm.visitedLevels[4] = true // Mark level 5 as visited
-                navigateToFightingPage = true
-                      }        default:
+            level5 = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                level5 = false
+                if vm.levelsArray[4] {
+                    vm.visitedLevels[4] = true // Mark level 5 as visited
+                    navigateToFightingPage = true
+                } }       default:
             break
         }
     }
