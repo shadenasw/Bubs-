@@ -53,7 +53,7 @@ struct LevelsPage: View {
                             .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
-                            .background(vm.levelsArray[0] ? Color.darkBlue : Color.gray)
+                            .background(vm.visitedLevels[0] || vm.levelsArray[0] ? Color.darkBlue : Color.gray) // Remain darkBlue if visited
                             .clipShape(Circle())
                     }
                     .position(x: 120, y: 340)
@@ -66,7 +66,7 @@ struct LevelsPage: View {
                             .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
-                            .background(vm.levelsArray[1] ? Color.darkBlue : Color.gray)
+                            .background(vm.visitedLevels[1] || vm.levelsArray[1] ? Color.darkBlue : Color.gray) // Remain darkBlue if visited
                             .clipShape(Circle())
                     }
                     .position(x: 360, y: 80)
@@ -80,7 +80,7 @@ struct LevelsPage: View {
                         .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
-                            .background(vm.levelsArray[2] ? Color.darkBlue : Color.gray)
+                            .background(vm.visitedLevels[2] || vm.levelsArray[2] ? Color.darkBlue : Color.gray) // Stay darkBlue if visited
                             .clipShape(Circle())
                     }
                     .position(x: 220, y: 130)
@@ -94,7 +94,7 @@ struct LevelsPage: View {
                             .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
-                            .background(vm.levelsArray[3] ? Color.darkBlue : Color.gray)
+                            .background(vm.visitedLevels[3] || vm.levelsArray[3] ? Color.darkBlue : Color.gray) // Stay darkBlue if visited
                             .clipShape(Circle())
                     }
                     .position(x: 370, y: 310)
@@ -108,7 +108,7 @@ struct LevelsPage: View {
                         .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
-                            .background(vm.levelsArray[4] ? Color.darkBlue : Color.gray)
+                            .background(vm.visitedLevels[4] || vm.levelsArray[4] ? Color.darkBlue : Color.gray) // Stay darkBlue if visited
                             .clipShape(Circle())
                     }
                     .position(x: 540, y: 150)
@@ -149,6 +149,7 @@ struct LevelsPage: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 showHandImage = false // إخفاء صورة اليد بعد 4 ثوان
                 if vm.levelsArray[0] {
+                    vm.visitedLevels[0] = true // Mark level 1 as visited
                                    navigateToFightingPage = true
                                } // الانتقال إلى صفحة القتال
             }
@@ -161,6 +162,7 @@ struct LevelsPage: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 showHandImage = false // إخفاء صورة اليد بعد 4 ثوان
                 if vm.levelsArray[1] {
+                    vm.visitedLevels[1] = true // Mark level 2 as visited
                                    navigateToFightingPage = true
                                } // الانتقال إلى صفحة القتال بعد 4 ثوان
             }
@@ -168,16 +170,19 @@ struct LevelsPage: View {
         case 3:
             
             if vm.levelsArray[2] {
+                vm.visitedLevels[2] = true // Mark level 3 as visited
                             navigateToFightingPage = true
                         }
         case 4:
            
             if vm.levelsArray[3] {
+                vm.visitedLevels[3] = true // Mark level 4 as visited
                            navigateToFightingPage = true
                        }
         case 5:
             if vm.levelsArray[4] {
-                          navigateToFightingPage = true
+                vm.visitedLevels[4] = true // Mark level 5 as visited
+                navigateToFightingPage = true
                       }        default:
             break
         }
