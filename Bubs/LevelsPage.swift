@@ -36,7 +36,7 @@ struct LevelsPage: View {
                     Image("open-hands")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 300, height: 300) // Adjust the size here as needed
+                        .frame(width: 250, height: 250) // Adjust the size here as needed
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .offset(y: 50) // Center the image
 //                    } else {
