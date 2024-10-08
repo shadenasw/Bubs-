@@ -179,6 +179,8 @@ struct LevelsPage: View {
             .onAppear {
                 // إعادة تعيين الحالة عند ظهور الصفحة
                 navigateToFightingPage = false
+            // Start playing background music when the homepage appears
+            GameMusicPlayer.shared.playBackgroundMusic()
             }
         }
     }

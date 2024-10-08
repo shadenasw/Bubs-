@@ -88,6 +88,8 @@ struct VictoryPage: View {
         }
         .onAppear {
             localCurrentLevel = currentLevel // Copy the current level to the local state
+                // Start playing background music when the homepage appears
+                GameMusicPlayer.shared.playBackgroundMusic()
         }
     }
 
