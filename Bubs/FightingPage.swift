@@ -23,6 +23,9 @@ struct FightingPage: View {
     @State private var clickAudioPlayer: AVAudioPlayer?
     @State private var throwAudioPlayer: AVAudioPlayer?
     @State private var hitAudioPlayer: AVAudioPlayer?
+    @Binding var currentLevel: [Bool]
+        @Binding var levelsCompleted: Int
+        @EnvironmentObject var vm: ViewModel
 
     var body: some View {
         NavigationStack {
@@ -166,14 +169,14 @@ struct FightingPage: View {
                         .padding() // Add padding to keep the contents centered
                     }
                 }
-                .onAppear {
-                    GameMusicPlayer.shared.playFightingMusic() // Start playing fighting music
-                }
-                .onDisappear {
-                    GameMusicPlayer.shared.stop() // Stop the music when leaving the fighting page
+               .onAppear {
+                    GameMusicPlayer.shared.playFightingMusic() /// Start playing fighting music
+               }
+               .onDisappear {
+                   GameMusicPlayer.shared.stop() // Stop the music when leaving the fighting page
                 }
                 .navigationDestination(isPresented: $gameWon) {
-                    VictoryPage()
+                    VictoryPage(levelsCompleted: $levelsCompleted, currentLevel: $currentLevel)
                         .navigationBarBackButtonHidden(true)
                 }
                 .navigationDestination(isPresented: $homePage) {
@@ -257,6 +260,10 @@ struct FightingPage: View {
 
             if enemyHealth <= 0 {
                 gameWon = true  // Trigger victory if health drops to zero
+                
+                if let currentIndex = currentLevel.firstIndex(of: true), currentIndex + 1 < vm.levelsArray.count {
+                      vm.levelsArray[currentIndex + 1] = true // Unlock the next level
+                  }
             }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -289,11 +296,10 @@ struct HealthBar: View {
         .frame(maxWidth: .infinity) // Make the health bar occupy full width
     }
 }
-
 // MARK: - Preview
 
-struct FightingPage_Previews: PreviewProvider {
-    static var previews: some View {
-        FightingPage()
-    }
-}
+//struct FightingPage_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FightingPage()
+//    }
+//}

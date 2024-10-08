@@ -15,7 +15,8 @@ struct HomePage: View {
     @State private var animateBubbles1 = false
     @State private var animateBubblesWithSound = false
     @State private var playCount = 0
-    
+    @EnvironmentObject var vm: ViewModel
+
     
     var body: some View {
         NavigationView {
