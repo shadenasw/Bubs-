@@ -26,6 +26,7 @@ struct FightingPage: View {
     @Binding var currentLevel: [Bool]
         @Binding var levelsCompleted: Int
         @EnvironmentObject var vm: ViewModel
+    @State private var currentIndex: Int = 0
 
     var body: some View {
         NavigationStack {
@@ -170,6 +171,10 @@ struct FightingPage: View {
                     }
                 }
                .onAppear {
+                   // Get current index
+                                     if let index = currentLevel.firstIndex(of: true) {
+                                         currentIndex = index
+                                     }
                     GameMusicPlayer.shared.playFightingMusic() /// Start playing fighting music
                }
                .onDisappear {
@@ -259,12 +264,19 @@ struct FightingPage: View {
             playHitSound()  // Play hit sound effect
 
             if enemyHealth <= 0 {
+                print("hiiii")
                 gameWon = true  // Trigger victory if health drops to zero
-                
-                if let currentIndex = currentLevel.firstIndex(of: true), currentIndex + 1 < vm.levelsArray.count {
-                      vm.levelsArray[currentIndex + 1] = true // Unlock the next level
-                  }
-            }
+                // Unlock the next level only if the current level is completed
+                        if currentIndex + 1 < vm.levelsArray.count {
+                            vm.levelsArray[currentIndex] = false  // Mark the current level as completed
+                            print("Completed Level \(currentIndex)")
+                            
+                            if !vm.levelsArray[currentIndex + 1] {  // Ensure the next level is locked before unlocking
+                                vm.levelsArray[currentIndex + 1] = true  // Unlock the next level
+                                currentLevel[currentIndex + 1] = true
+                                print("Unlocking Level \(currentIndex)")
+                            }
+                        }           }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 enemyHit = false

@@ -50,7 +50,7 @@ struct LevelsPage: View {
                         levelSelected(1)
                     }) {
                         Text("1")
-                            .font(.custom("Vanilla", size: 20))
+                            .font(.custom("Vanilla", size: 30))
                             .foregroundColor(.white)
                             .frame(width: 40, height: 40)
                             .background(vm.levelsArray[0] ? Color.darkBlue : Color.gray)
