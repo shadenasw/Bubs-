@@ -37,8 +37,14 @@
 		FF67803D2CB27243007A95E7 /* Exceptions for "Bubs" folder in "Bubs" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"hand-washing-8483.mp3",
 				Info.plist,
+			);
+			target = FFFFD8942CA99A79002B9E94 /* Bubs */;
+		};
+		FF8ED3FA2CB536C900D28D5B /* Exceptions for "Audios" folder in "Bubs" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"hand-washing-8483.mp3",
 			);
 			target = FFFFD8942CA99A79002B9E94 /* Bubs */;
 		};
@@ -70,6 +76,9 @@
 		};
 		FFFFD9CC2CAC2AB1002B9E94 /* Audios */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FF8ED3FA2CB536C900D28D5B /* Exceptions for "Audios" folder in "Bubs" target */,
+			);
 			path = Audios;
 			sourceTree = "<group>";
 		};
