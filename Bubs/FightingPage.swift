@@ -266,17 +266,19 @@ struct FightingPage: View {
             if enemyHealth <= 0 {
                 print("hiiii")
                 gameWon = true  // Trigger victory if health drops to zero
+                
                 // Unlock the next level only if the current level is completed
-                        if currentIndex + 1 < vm.levelsArray.count {
-                            vm.levelsArray[currentIndex] = false  // Mark the current level as completed
-                            print("Completed Level \(currentIndex)")
-                            
-                            if !vm.levelsArray[currentIndex + 1] {  // Ensure the next level is locked before unlocking
-                                vm.levelsArray[currentIndex + 1] = true  // Unlock the next level
-                                currentLevel[currentIndex + 1] = true
-                                print("Unlocking Level \(currentIndex)")
-                            }
-                        }           }
+                       if currentIndex + 1 < vm.levelsArray.count {
+                           vm.levelsArray[currentIndex] = false  // Mark the current level as completed
+                           print("Completed Level \(currentIndex)")
+                           
+                           if !vm.levelsArray[currentIndex + 1] {  // Ensure the next level is locked before unlocking
+                               vm.levelsArray[currentIndex + 1] = true  // Unlock the next level
+                               currentLevel[currentIndex + 1] = true
+                               print("Unlocking Level \(currentIndex + 1)")
+                           }
+                       }
+            }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 enemyHit = false

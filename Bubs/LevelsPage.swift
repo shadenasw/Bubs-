@@ -19,7 +19,7 @@ struct LevelsPage: View {
     
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // خلفية الصورة
                 Image("sink")

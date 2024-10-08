@@ -59,7 +59,7 @@ struct VictoryPage: View {
 //                            vm.levelsArray[1] = true
 //
 //                        }) {
-                            NavigationLink(destination: LevelsPage()){
+                            NavigationLink(destination: LevelsPage() .navigationBarBackButtonHidden(true)){
                                 Text("Continue")
                                 .font(.custom("Vanilla", size: 30))
                                     .foregroundColor(.white)
