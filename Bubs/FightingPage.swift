@@ -23,9 +23,13 @@ struct FightingPage: View {
     @State private var clickAudioPlayer: AVAudioPlayer?
     @State private var throwAudioPlayer: AVAudioPlayer?
     @State private var hitAudioPlayer: AVAudioPlayer?
+    
+    // 1. Add a new AVAudioPlayer for the success sound
+    @State private var successAudioPlayer: AVAudioPlayer?
+    
     @Binding var currentLevel: [Bool]
-        @Binding var levelsCompleted: Int
-        @EnvironmentObject var vm: ViewModel
+    @Binding var levelsCompleted: Int
+    @EnvironmentObject var vm: ViewModel
     @State private var currentIndex: Int = 0
 
     var body: some View {
@@ -136,18 +140,18 @@ struct FightingPage: View {
 
                             HStack(spacing: 40) {
                                 // Home Button
-                                  Button(action: {
-                                      playClickSound() // Play click sound when the icon is tapped
-                                      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Delay for the click sound to play
-                                          // Perform navigation here
-                                          homePage = true // Set this to true to trigger navigation
-                                      }
-                                  }) {
-                                      Image("houseicon")
-                                          .resizable()
-                                          .frame(width: 50, height: 50)
-                                          .foregroundColor(.red)
-                                  }
+                                Button(action: {
+                                    playClickSound() // Play click sound when the icon is tapped
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Delay for the click sound to play
+                                        // Perform navigation here
+                                        homePage = true // Set this to true to trigger navigation
+                                    }
+                                }) {
+                                    Image("houseicon")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .foregroundColor(.red)
+                                }
 
                                 // Reset Button
                                 Button(action: {
@@ -172,10 +176,10 @@ struct FightingPage: View {
                 }
                .onAppear {
                    // Get current index
-                                     if let index = currentLevel.firstIndex(of: true) {
-                                         currentIndex = index
-                                     }
-                    GameMusicPlayer.shared.playFightingMusic() /// Start playing fighting music
+                   if let index = currentLevel.firstIndex(of: true) {
+                       currentIndex = index
+                   }
+                   GameMusicPlayer.shared.playFightingMusic() /// Start playing fighting music
                }
                .onDisappear {
                    GameMusicPlayer.shared.stop() // Stop the music when leaving the fighting page
@@ -236,6 +240,21 @@ struct FightingPage: View {
             print("Error playing hit audio: \(error.localizedDescription)")
         }
     }
+    
+    // 2. Create a function to play the success sound
+    private func playSuccessSound() {
+        guard let url = Bundle.main.url(forResource: "success", withExtension: "mp3") else {
+            print("Success audio file not found")
+            return
+        }
+
+        do {
+            successAudioPlayer = try AVAudioPlayer(contentsOf: url)
+            successAudioPlayer?.play()
+        } catch {
+            print("Error playing success audio: \(error.localizedDescription)")
+        }
+    }
 
     // MARK: - Game Functions
 
@@ -243,7 +262,7 @@ struct FightingPage: View {
         // Set the soap position to the right side of the screen (adjust this as needed)
         soapPositionX = geometry.size.width - 50 // Starting position near the right edge
         soapPositionY = playerPositionY
-        
+
         showSoap = true
         playThrowSound() // Play throw sound effect
 
@@ -258,7 +277,7 @@ struct FightingPage: View {
             enemyHealth -= 0.3
             enemyHit = true
             showSoap = false
-            
+
             // Reset soap position
             soapPositionX = playerPositionX
             playHitSound()  // Play hit sound effect
@@ -267,17 +286,20 @@ struct FightingPage: View {
                 print("hiiii")
                 gameWon = true  // Trigger victory if health drops to zero
                 
+                // 3. Play the success sound when the game is won
+                playSuccessSound()
+                
                 // Unlock the next level only if the current level is completed
-                       if currentIndex + 1 < vm.levelsArray.count {
-                           vm.levelsArray[currentIndex] = false  // Mark the current level as completed
-                           print("Completed Level \(currentIndex)")
-                           
-                           if !vm.levelsArray[currentIndex + 1] {  // Ensure the next level is locked before unlocking
-                               vm.levelsArray[currentIndex + 1] = true  // Unlock the next level
-                               currentLevel[currentIndex + 1] = true
-                               print("Unlocking Level \(currentIndex + 1)")
-                           }
-                       }
+                if currentIndex + 1 < vm.levelsArray.count {
+                    vm.levelsArray[currentIndex] = false  // Mark the current level as completed
+                    print("Completed Level \(currentIndex)")
+                    
+                    if !vm.levelsArray[currentIndex + 1] {  // Ensure the next level is locked before unlocking
+                        vm.levelsArray[currentIndex + 1] = true  // Unlock the next level
+                        currentLevel[currentIndex + 1] = true
+                        print("Unlocking Level \(currentIndex)")
+                    }
+                }
             }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
