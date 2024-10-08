@@ -11,57 +11,63 @@ import AVFoundation
 class GameMusicPlayer {
     static let shared = GameMusicPlayer() // Singleton instance
     
-    private var audioPlayer: AVAudioPlayer?
+    private var backgroundAudioPlayer: AVAudioPlayer?
+    private var fightingAudioPlayer: AVAudioPlayer?
     
     private init() {
-        // Load and prepare the music files
-        loadBackgroundMusic("GameMusic") // Regular game music
-        loadFightingMusic("fightingMusic") // Fighting music
+        loadBackgroundMusic("GameMusic")
+        loadFightingMusic("fightMusic")
     }
     
+    // Load background music
     func loadBackgroundMusic(_ filename: String) {
         if let url = Bundle.main.url(forResource: filename, withExtension: "mp3") {
             do {
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.numberOfLoops = -1 // Infinite loop
+                backgroundAudioPlayer = try AVAudioPlayer(contentsOf: url)
+                backgroundAudioPlayer?.numberOfLoops = -1 // Loop indefinitely
             } catch {
                 print("Error loading background music: \(error)")
             }
+        } else {
+            print("Background music file not found.")
         }
     }
     
+    // Load fighting music
     private func loadFightingMusic(_ filename: String) {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else {
+        if let url = Bundle.main.url(forResource: filename, withExtension: "mp3") {
+            do {
+                fightingAudioPlayer = try AVAudioPlayer(contentsOf: url)
+                fightingAudioPlayer?.numberOfLoops = -1 // Loop indefinitely
+            } catch {
+                print("Error loading fighting music: \(error)")
+            }
+        } else {
             print("Fighting music file not found.")
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = -1 // Infinite loop for fighting music
-        } catch {
-            print("Error loading fighting music: \(error)")
         }
     }
 
-    
-    // Start playing the music
+    // Start playing background music
     func playBackgroundMusic() {
-        audioPlayer?.play()
+        fightingAudioPlayer?.stop() // Stop fighting music if playing
+        backgroundAudioPlayer?.play()
     }
     
-    // Start playing the fighting music
+    // Start playing fighting music
     func playFightingMusic() {
-        audioPlayer?.play() // Ensure that you switch to the fighting music here
+        backgroundAudioPlayer?.stop() // Stop background music if playing
+        fightingAudioPlayer?.play()
     }
     
-    // Stop the music
+    // Stop all music
     func stop() {
-        audioPlayer?.stop()
+        backgroundAudioPlayer?.stop()
+        fightingAudioPlayer?.stop()
     }
     
-    // Pause the music
+    // Pause all music
     func pause() {
-        audioPlayer?.pause()
+        backgroundAudioPlayer?.pause()
+        fightingAudioPlayer?.pause()
     }
 }
